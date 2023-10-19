@@ -8,6 +8,12 @@
 import Foundation
 
 final class UserManager: ObservableObject {
-    @Published var isLoggedIn = false
-    var name = ""
+    private let storageManager = StorageManager.shared
+    
+    @Published var user: User
+    
+    init() {
+        self.user = storageManager.fetchUser() ?? User(name: "", isLoggedIn: false)
+    }
+    
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject private var userManager: UserManager
+    private let storageManager = StorageManager.shared
     @State private var name = ""
     
     var body: some View {
@@ -24,8 +25,9 @@ struct LoginView: View {
     
     private func login() {
         if !name.isEmpty {
-            userManager.name = name
-            userManager.isLoggedIn.toggle()
+            userManager.user.name = name
+            userManager.user.isLoggedIn.toggle()
+            storageManager.save(user: userManager.user)
         }
     }
 }
