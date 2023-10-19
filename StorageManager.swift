@@ -19,7 +19,6 @@ final class StorageManager: ObservableObject {
         guard let data = userDefaults.data(forKey: userKey) else { return nil }
         do {
             let user = try JSONDecoder().decode(User.self, from: data)
-            print(user)
             return user
         } catch {
             print(error.localizedDescription)

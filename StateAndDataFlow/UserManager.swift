@@ -16,4 +16,8 @@ final class UserManager: ObservableObject {
         self.user = storageManager.fetchUser() ?? User(name: "", isLoggedIn: false)
     }
     
+    func logoutUser() {
+        storageManager.deleteUser()
+        user = User(name: "", isLoggedIn: false)
+    }
 }
