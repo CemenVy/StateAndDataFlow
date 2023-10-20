@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class StorageManager: ObservableObject {
+final class StorageManager {
     static let shared = StorageManager()
     
     private let userDefaults = UserDefaults.standard

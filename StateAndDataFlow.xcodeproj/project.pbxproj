@@ -55,6 +55,7 @@
 		60A626E82AE1239900DC6F76 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A870D5662AE05BB1000D10A8 /* UserManager.swift */,
 				60A626E62AE1239300DC6F76 /* StorageManager.swift */,
 			);
 			name = Services;
@@ -87,7 +88,6 @@
 				A87E26702AE0106F006262D5 /* ContentView.swift */,
 				A870D5642AE05AE8000D10A8 /* LoginView.swift */,
 				A870D5622AE0555B000D10A8 /* TimeCounter.swift */,
-				A870D5662AE05BB1000D10A8 /* UserManager.swift */,
 				A87E26722AE01070006262D5 /* Assets.xcassets */,
 				A87E26742AE01070006262D5 /* Preview Content */,
 			);

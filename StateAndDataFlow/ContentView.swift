@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var timer = TimeCounter()
+    @State private var timer = TimeCounter()
     @EnvironmentObject private var userManager: UserManager
     
     var body: some View {
@@ -22,11 +22,19 @@ struct ContentView: View {
             
             Spacer()
             
-            ButtonView(action: timer.startTimer, title: timer.buttonTitle, backgroundColor: .red)
+            ButtonView(
+                action: timer.startTimer,
+                title: timer.buttonTitle,
+                backgroundColor: .red
+            )
             
             Spacer()
            
-            ButtonView(action: userManager.logoutUser, title: "Logout", backgroundColor: .red)
+            ButtonView(
+                action: userManager.logoutUser,
+                title: "Logout",
+                backgroundColor: .blue
+            )
         }
     }
 }

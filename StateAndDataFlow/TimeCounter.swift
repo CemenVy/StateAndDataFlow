@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
-final class TimeCounter: ObservableObject {
-    let objectWillChange = ObservableObjectPublisher()
+@Observable
+final class TimeCounter {
     var counter = 3
     var buttonTitle = "Start"
     
@@ -36,8 +36,6 @@ final class TimeCounter: ObservableObject {
             killTimer()
             buttonTitle = "Reset"
         }
-        
-        objectWillChange.send()
     }
     
     private func killTimer() {
@@ -52,7 +50,5 @@ final class TimeCounter: ObservableObject {
         } else {
             buttonTitle = "Wait..."
         }
-        
-        objectWillChange.send()
     }
 }
