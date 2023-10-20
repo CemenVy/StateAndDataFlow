@@ -9,8 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject private var userManager: UserManager
-    private let storageManager = StorageManager.shared
     @State private var name = ""
+    @State private var showAlert = false
     
     var body: some View {
         VStack {
@@ -27,13 +27,18 @@ struct LoginView: View {
             .padding(.trailing, 35)
             .disabled(name.count < 3)
         }
+        .alert(isPresented: $userManager.showAlert) {
+                    Alert(
+                        title: Text("Wrong format!"),
+                        message: Text("You can choose any combination of Latin letters (a-z) as a name."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
     }
     
     private func login() {
         if !name.isEmpty {
-            userManager.user.name = name
-            userManager.user.isLoggedIn.toggle()
-            storageManager.save(user: userManager.user)
+            userManager.loginUser(name)
         }
     }
 }
