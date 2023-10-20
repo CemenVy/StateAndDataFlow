@@ -10,7 +10,6 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject private var userManager: UserManager
     @State private var name = ""
-    @State private var showAlert = false
     
     var body: some View {
         VStack {
@@ -18,28 +17,22 @@ struct LoginView: View {
                 TextField("Enter your name", text: $name)
                     .multilineTextAlignment(.center)
                 Text(name.count.formatted())
-                    .foregroundStyle(name.count < 3 ? .red : .green)
+                    .foregroundStyle(userManager.isNameValid ? .green : .red)
                     .padding(.trailing, 30)
             }
             Button(action: login) {
                 Label("OK", systemImage: "checkmark.circle")
             }
             .padding(.trailing, 35)
-            .disabled(name.count < 3)
+            .disabled(!userManager.isNameValid)
         }
-        .alert(isPresented: $userManager.showAlert) {
-                    Alert(
-                        title: Text("Wrong format!"),
-                        message: Text("You can choose any combination of Latin letters (a-z) as a name."),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
+        .onChange(of: name) {
+            userManager.checkNameValid(name)
+        }
     }
     
     private func login() {
-        if !name.isEmpty {
-            userManager.loginUser(name)
-        }
+        userManager.loginUser(name)
     }
 }
 
