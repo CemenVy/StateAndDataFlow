@@ -8,31 +8,48 @@
 import SwiftUI
 
 struct LoginView: View {
+    
     @EnvironmentObject private var userManager: UserManager
-    @State private var name = ""
+    private let storageManager = StorageManager.shared
     
     var body: some View {
         VStack {
-            HStack {
-                TextField("Enter your name", text: $name)
-                    .multilineTextAlignment(.center)
-                Text(name.count.formatted())
-                    .foregroundStyle(userManager.isNameValid ? .green : .red)
-                    .padding(.trailing, 30)
-            }
-            Button(action: login) {
+            UserNameTF(
+                name: $userManager.user.name,
+                nameIsValid: userManager.nameIsValid
+            )
+            Button(action: registerUser) {
                 Label("OK", systemImage: "checkmark.circle")
             }
-            .padding(.trailing, 35)
-            .disabled(!userManager.isNameValid)
+            .disabled(!userManager.nameIsValid)
         }
-        .onChange(of: name) {
-            userManager.checkNameValid(name)
-        }
+        .padding()
     }
     
-    private func login() {
-        userManager.loginUser(name)
+    private func registerUser() {
+        userManager.user.isLoggedIn.toggle()
+        storageManager.save(user: userManager.user)
+    }
+}
+
+struct UserNameTF: View {
+    
+    @Binding var name: String
+    var nameIsValid = false
+    
+    var body: some View {
+        ZStack {
+            TextField("Type your name...", text: $name)
+                .multilineTextAlignment(.center)
+            HStack {
+                Spacer()
+                Text(name.count.formatted())
+                    .font(.callout)
+                    .foregroundStyle(nameIsValid ? .green : .red)
+                    .padding([.top, .trailing])
+            }
+            .padding(.bottom)
+        }
     }
 }
 

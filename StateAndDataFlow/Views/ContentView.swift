@@ -8,33 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var timer = TimeCounter()
+    
     @EnvironmentObject private var userManager: UserManager
+    
+    private let timer = TimeCounter()
+    private let storageManager = StorageManager.shared
     
     var body: some View {
         VStack {
             Text("Hi, \(userManager.user.name)")
                 .font(.largeTitle)
-                .padding(.top, 100)
-            Text(timer.counter.formatted())
+                .offset(x: 0, y: 100)
+            Text("\(timer.counter)")
                 .font(.largeTitle)
-                .padding(.top, 100)
+                .offset(x: 0, y: 200)
             
             Spacer()
             
-            ButtonView(
-                action: timer.startTimer,
-                title: timer.buttonTitle,
-                backgroundColor: .red
-            )
+            ButtonView(title: timer.buttonTitle, backgroundColor: .red) {
+                timer.startTimer()
+            }
             
             Spacer()
-           
-            ButtonView(
-                action: userManager.logoutUser,
-                title: "Logout",
-                backgroundColor: .blue
-            )
+            
+            ButtonView(title: "Logout", backgroundColor: .blue) {
+                storageManager.delete(userManager: userManager)
+            }
         }
     }
 }
@@ -45,9 +44,9 @@ struct ContentView: View {
 }
 
 struct ButtonView: View {
-    var action: () -> Void
     var title: String
     var backgroundColor: Color
+    var action: () -> Void
     
     var body: some View {
         Button(action: action) {

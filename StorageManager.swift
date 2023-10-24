@@ -8,29 +8,27 @@
 import SwiftUI
 
 final class StorageManager: ObservableObject {
+    
     static let shared = StorageManager()
     
     @AppStorage("user") private var userData: Data?
     
     private init() {}
     
-    func fetchUser() -> User? {
-        guard let data = userData else { return nil }
-        do {
-            let user = try JSONDecoder().decode(User.self, from: data)
-            return user
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
+    func fetchUser() -> User {
+        guard let userData else { return User() }
+        let user = try? JSONDecoder().decode(User.self, from: userData)
+        guard let user else { return User() }
+        return user
     }
     
     func save(user: User) {
-        guard let data = try? JSONEncoder().encode(user) else { return }
-        userData = data
+        userData = try? JSONEncoder().encode(user)
     }
     
-    func deleteUser() {
+    func delete(userManager: UserManager) {
+        userManager.user.isLoggedIn = false
+        userManager.user.name = ""
         userData = nil
     }
     
